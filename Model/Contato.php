@@ -187,7 +187,7 @@ class Contato
         }
 
         if ($stmt->execute()) {
-            return ($stmt->rowCount() > 0)? TRUE : FALSE;;
+            return ($stmt->rowCount() > 0) ? TRUE : FALSE;
         } else {
             //throw new PDOException(Contato::ERRO_CONEXAO);
             return FALSE;
@@ -202,11 +202,11 @@ class Contato
     {
         if ($this->id != NULL) {
             $conexao = Conexao::getInstancia('contatos');
-            $stmt    = $conexao->prepare("DELETE FROM tb_contatos WHERE id=?");
+            $stmt = $conexao->prepare("DELETE FROM tb_contatos WHERE id=?");
             $stmt->bindParam(1, $this->id, PDO::PARAM_INT);
 
             if ($stmt->execute()) {
-                return ($stmt->rowCount() > 0)? TRUE : FALSE;
+                return ($stmt->rowCount() > 0) ? TRUE : FALSE;
             } else {
                 //throw new PDOException(Contato::ERRO_CONEXAO);
                 return FALSE;
@@ -224,12 +224,12 @@ class Contato
     {
 
         $conexao = Conexao::getInstancia('contatos');
-        $stmt    = $conexao->prepare("SELECT * FROM tb_contatos WHERE id=?");
+        $stmt = $conexao->prepare("SELECT * FROM tb_contatos WHERE id=?");
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
-                $contato   = new self;
+                $contato = new self;
                 $recordSet = $stmt->fetch(PDO::FETCH_OBJ);
                 $contato->setId($recordSet->id);
                 $contato->setNome($recordSet->nome);
@@ -308,4 +308,6 @@ class Contato
             throw new PDOException(Contato::ERRO_CONEXAO);
         }
     }
+
+
 }

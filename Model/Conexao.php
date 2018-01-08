@@ -15,7 +15,7 @@ final class Conexao
 
     private function __clone()
     {
-        
+
     }
 
     private function __wakeup()
@@ -48,7 +48,7 @@ final class Conexao
      */
     private static function load(string $arquivo): array
     {
-        $arquivo = 'Model/' . $arquivo.'.ini';
+        $arquivo = 'Model/' . $arquivo . '.ini';
 
         if (file_exists($arquivo)) {
             $dados = parse_ini_file($arquivo);
@@ -60,33 +60,42 @@ final class Conexao
 
     /**
      * Método estático para selecionar extrair os dados e montar string de conexao
-     * @param $dados arry
+     * @param $dados array
      * @return PDO
      */
     private static function getCon(array $dados): PDO
     {
         // capturar dados
-        $sgdb     = isset($dados['sgdb']) ? $dados['sgdb'] : NULL;
-        $usuario  = isset($dados['usuario']) ? $dados['usuario'] : NULL;
-        $senha    = isset($dados['senha']) ? $dados['senha'] : NULL;
-        $banco    = isset($dados['banco']) ? $dados['banco'] : NULL;
+        $sgdb = isset($dados['sgdb']) ? $dados['sgdb'] : NULL;
+        $usuario = isset($dados['usuario']) ? $dados['usuario'] : NULL;
+        $senha = isset($dados['senha']) ? $dados['senha'] : NULL;
+        $banco = isset($dados['banco']) ? $dados['banco'] : NULL;
         $servidor = isset($dados['servidor']) ? $dados['servidor'] : NULL;
-        $porta    = isset($dados['porta']) ? $dados['porta'] : NULL;
+        $porta = isset($dados['porta']) ? $dados['porta'] : NULL;
 
         if (!is_null($sgdb)) {
             // selecionar banco - criar string de conexão
             switch (strtoupper($sgdb)) {
-                case 'MYSQL' : $porta = isset($porta) ? $porta : 3306 ; return new PDO("mysql:host={$servidor};port={$porta};dbname={$banco}", $usuario, $senha);
+                case 'MYSQL' :
+                    $porta = isset($porta) ? $porta : 3306;
+                    return new PDO("mysql:host={$servidor};port={$porta};dbname={$banco}", $usuario, $senha);
                     break;
-                case 'MSSQL' : $porta = isset($porta) ? $porta : 1433 ;return new PDO("mssql:host={$servidor},{$porta};dbname={$banco}", $usuario, $senha);
+                case 'MSSQL' :
+                    $porta = isset($porta) ? $porta : 1433;
+                    return new PDO("mssql:host={$servidor},{$porta};dbname={$banco}", $usuario, $senha);
                     break;
-                case 'PGSQL' : $porta = isset($porta) ? $porta : 5432 ;return new PDO("pgsql:dbname={$banco}; user={$usuario}; password={$senha}, host={$servidor};port={$porta}");
+                case 'PGSQL' :
+                    $porta = isset($porta) ? $porta : 5432;
+                    return new PDO("pgsql:dbname={$banco}; user={$usuario}; password={$senha}, host={$servidor};port={$porta}");
                     break;
-                case 'SQLITE' : return new PDO("sqlite:{$banco}");
+                case 'SQLITE' :
+                    return new PDO("sqlite:{$banco}");
                     break;
-                case 'OCI8' : return new PDO("oci:dbname={$banco}", $usuario, $senha);
+                case 'OCI8' :
+                    return new PDO("oci:dbname={$banco}", $usuario, $senha);
                     break;
-                case 'FIREBIRD' : return new PDO("firebird:dbname={$banco}", $usuario, $senha);
+                case 'FIREBIRD' :
+                    return new PDO("firebird:dbname={$banco}", $usuario, $senha);
                     break;
             }
         } else {
